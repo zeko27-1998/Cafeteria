@@ -16,29 +16,30 @@ export default function CartSidebar() {
     setPaymentMethod,
   } = useApp();
   const [animateBadge, setAnimateBadge] = useState(false);
+  const [displayCount, setDisplayCount] = useState(0);
+
   useEffect(() => {
+    const t = setTimeout(() => setAnimateBadge(false), 300);
     if (cart.length > 0) {
       setAnimateBadge(true);
-      const t = setTimeout(() => setAnimateBadge(false), 300);
       return () => clearTimeout(t);
     }
-    const [displayCount, setDisplayCount] = useState(0);
-
-    useEffect(() => {
-      let start = displayCount;
-      let end = cart.length;
-
-      const step = () => {
-        if (start < end) {
-          start++;
-          setDisplayCount(start);
-          requestAnimationFrame(step);
-        }
-      };
-
-      step();
-    }, [cart.length]);
   }, [cart.length]);
+  useEffect(() => {
+    let start = displayCount;
+    let end = cart.length;
+
+    const step = () => {
+      if (start < end) {
+        start++;
+        setDisplayCount(start);
+        requestAnimationFrame(step);
+      }
+    };
+
+    step();
+  }, [cart.length, displayCount]);
+
   const location = useLocation();
   if (!location.pathname.startsWith("/menu")) return null;
   const cartItemsCount = cart.length;
