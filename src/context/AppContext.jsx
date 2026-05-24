@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback } from "react";
+import { useRef } from "react";
 import {
   DB,
   SUPER_ADMIN,
@@ -34,6 +35,9 @@ export function AppProvider({ children }) {
   const [paymentMethod, setPaymentMethod] = useState("wallet"); // 'wallet' | 'cash'
   const [toasts, setToasts] = useState([]);
   const [, forceUpdate] = useState(0);
+  const lastToastRef = useRef({});
+  const cartItemsCount = cart.length; // عدد الأصناف
+  const cartQtyCount = cart.reduce((s, c) => s + c.qty, 0); // عدد القطع
 
   const refresh = useCallback(() => forceUpdate((n) => n + 1), []);
 
@@ -89,6 +93,7 @@ export function AppProvider({ children }) {
   /* ══ CART ═══════════════════════════════════════════════════════ */
   const addToCart = (item) => {
     if (!item.available) return;
+
     setCart((prev) => {
       const ex = prev.find((c) => c.item.id === item.id);
       if (ex)
@@ -97,7 +102,15 @@ export function AppProvider({ children }) {
         );
       return [...prev, { item, qty: 1 }];
     });
-    toast(`${item.icon} أُضيف: ${item.name}`, "success");
+
+    // 🧠 منع التكرار
+    const now = Date.now();
+    const last = lastToastRef.current[item.id] || 0;
+
+    if (now - last > 1500) {
+      toast(`${item.icon} أُضيف: ${item.name}`, "success");
+      lastToastRef.current[item.id] = now;
+    }
   };
 
   const changeQty = (itemId, delta) =>
@@ -108,7 +121,7 @@ export function AppProvider({ children }) {
     );
 
   const cartTotal = cart.reduce((s, c) => s + c.item.price * c.qty, 0);
-  const cartCount = cart.reduce((s, c) => s + c.qty, 0);
+  const cartCount = cart.length;
 
   // Current balance from live DB (always fresh)
   const currentBalance =
@@ -290,6 +303,8 @@ export function AppProvider({ children }) {
   const getTransactions = (accountId) => dbGetTransactions(accountId);
 
   const value = {
+    cartItemsCount,
+    cartQtyCount,
     role,
     currentUser,
     login,

@@ -69,6 +69,7 @@ export default function CartSidebar() {
               </svg>
             </div>
             <span className="font-black text-lg">سلة الطلبات</span>
+
             {cart.length > 0 && (
               <span className="bg-white/20 text-white text-xs font-black px-2 py-0.5 rounded-full">
                 {cart.length}
