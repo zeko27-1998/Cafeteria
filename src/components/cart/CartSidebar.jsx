@@ -1,5 +1,6 @@
 import { useApp } from "../../context/AppContext";
 import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function CartSidebar() {
   const {
@@ -14,9 +15,34 @@ export default function CartSidebar() {
     paymentMethod,
     setPaymentMethod,
   } = useApp();
+  const [animateBadge, setAnimateBadge] = useState(false);
+  useEffect(() => {
+    if (cart.length > 0) {
+      setAnimateBadge(true);
+      const t = setTimeout(() => setAnimateBadge(false), 300);
+      return () => clearTimeout(t);
+    }
+    const [displayCount, setDisplayCount] = useState(0);
+
+    useEffect(() => {
+      let start = displayCount;
+      let end = cart.length;
+
+      const step = () => {
+        if (start < end) {
+          start++;
+          setDisplayCount(start);
+          requestAnimationFrame(step);
+        }
+      };
+
+      step();
+    }, [cart.length]);
+  }, [cart.length]);
   const location = useLocation();
   if (!location.pathname.startsWith("/menu")) return null;
-
+  const cartItemsCount = cart.length;
+  const cartQtyCount = cart.reduce((s, c) => s + c.qty, 0);
   const isUser = role === "user";
   const useWallet = paymentMethod === "wallet";
   const canAfford = !isUser || !useWallet || currentBalance >= cartTotal;
@@ -71,7 +97,12 @@ export default function CartSidebar() {
             <span className="font-black text-lg">سلة الطلبات</span>
 
             {cart.length > 0 && (
-              <span className="bg-white/20 text-white text-xs font-black px-2 py-0.5 rounded-full">
+              <span
+                className={`
+    bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-full
+    ${animateBadge ? "badge-pop" : ""}
+  `}
+              >
                 {cart.length}
               </span>
             )}
@@ -94,7 +125,20 @@ export default function CartSidebar() {
             </svg>
           </button>
         </div>
+        {/* Cart Summary */}
+        {cartOpen && (
+          <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-white border-b">
+            <div className="flex justify-between font-bold text-slate-800">
+              <span>🧺 الأصناف</span>
+              <span className="badge-pop">{cartItemsCount}</span>
+            </div>
 
+            <div className="flex justify-between text-sm text-slate-500 mt-1">
+              <span>📦 القطع</span>
+              <span className="badge-pulse">{cartQtyCount}</span>
+            </div>
+          </div>
+        )}
         {/* Payment method */}
         {isUser && (
           <div className="px-4 py-3 border-b border-slate-200 bg-slate-50 flex-shrink-0">
