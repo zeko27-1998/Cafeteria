@@ -1,0 +1,421 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ════════════════════════════════════════
+   BASE
+════════════════════════════════════════ */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html,
+  body,
+  #root {
+    min-height: 100vh;
+    font-family: "Cairo", sans-serif;
+    direction: rtl;
+    background: #f8fafc;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    font-family: "Cairo", sans-serif;
+  }
+}
+
+/* ════════════════════════════════════════
+   FIELD INPUT — always-visible border
+════════════════════════════════════════ */
+@layer components {
+  .field-input {
+    display: block;
+    width: 100%;
+    border: 2px solid #94a3b8;
+    border-radius: 12px;
+    padding: 11px 16px;
+    background: #ffffff;
+    font-family: "Cairo", sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+    outline: none;
+  }
+  .field-input:hover:not(:focus) {
+    border-color: #64748b;
+  }
+  .field-input:focus {
+    border-color: #1e88e5;
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+  }
+  .field-input::placeholder {
+    color: #94a3b8;
+  }
+  select.field-input {
+    cursor: pointer;
+  }
+  textarea.field-input {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+/* ════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════ */
+.btn-primary-gradient {
+  background: linear-gradient(135deg, #1565c0, #1e88e5);
+  box-shadow: 0 4px 14px rgba(21, 101, 192, 0.3);
+  transition: all 0.22s ease;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  font-family: "Cairo", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary-gradient:hover {
+  background: linear-gradient(135deg, #0b3d91, #1565c0);
+  box-shadow: 0 6px 20px rgba(21, 101, 192, 0.4);
+  transform: translateY(-1px);
+}
+.btn-primary-gradient:active {
+  transform: scale(0.97);
+}
+.btn-primary-gradient:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none;
+}
+
+.btn-success-gradient {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+  transition: all 0.22s ease;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  font-family: "Cairo", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-success-gradient:hover {
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+  transform: translateY(-1px);
+}
+.btn-success-gradient:active {
+  transform: scale(0.97);
+}
+.btn-success-gradient:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ════════════════════════════════════════
+   CART SIDEBAR
+════════════════════════════════════════ */
+.cart-sidebar {
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cart-sidebar.open {
+  transform: translateX(0);
+}
+
+/* ════════════════════════════════════════
+   TOGGLE SWITCH
+════════════════════════════════════════ */
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #cbd5e1;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.22s;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+}
+.toggle-track.on {
+  background: #16a34a;
+}
+.toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.22s;
+}
+.toggle-track.on::after {
+  right: auto;
+  left: 3px;
+}
+
+/* ════════════════════════════════════════
+   SECTION TITLE ACCENT
+════════════════════════════════════════ */
+.section-title-accent {
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, #1565c0, #1e88e5);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   HERO BANNER
+════════════════════════════════════════ */
+.hero-banner::after {
+  content: "🍽️";
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+  font-size: 110px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════════
+   EMOJI PICKER
+════════════════════════════════════════ */
+.emoji-opt {
+  transition: all 0.15s ease;
+}
+.emoji-opt:hover {
+  border-color: #1e88e5 !important;
+  background: #eff6ff;
+}
+.emoji-opt.selected {
+  border-color: #1565c0 !important;
+  background: #e3f2fd;
+}
+
+/* ════════════════════════════════════════
+   ADD BUTTON SPIN
+════════════════════════════════════════ */
+.add-btn {
+  transition: all 0.22s ease;
+}
+.add-btn:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* ════════════════════════════════════════
+   PAYMENT OPTIONS
+════════════════════════════════════════ */
+.pay-option {
+  flex: 1;
+  border: 2px solid #94a3b8;
+  border-radius: 14px;
+  padding: 12px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: white;
+}
+.pay-option:hover {
+  border-color: #1e88e5;
+  background: #eff6ff;
+}
+.pay-option.active {
+  border-color: #1565c0;
+  background: #e3f2fd;
+}
+.pay-option.active .pay-label {
+  color: #1565c0;
+}
+.pay-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+}
+
+/* ════════════════════════════════════════
+   MOBILE BOTTOM NAV
+════════════════════════════════════════ */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 2px solid #e2e8f0;
+  display: flex;
+  z-index: 90;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 20px rgba(21, 101, 192, 0.08);
+}
+
+/* ════════════════════════════════════════
+   BUBBLE ANIMATION (login)
+════════════════════════════════════════ */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  animation: floatBubble linear infinite;
+}
+@keyframes floatBubble {
+  0% {
+    transform: translateY(110vh) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* ════════════════════════════════════════
+   SCROLLBAR
+════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ════════════════════════════════════════
+   KEYFRAMES & ANIMATIONS
+════════════════════════════════════════ */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+@keyframes bounceScale {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(21, 101, 192, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(21, 101, 192, 0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.35s ease both;
+}
+.animate-scale-in {
+  animation: scaleIn 0.25s ease both;
+}
+.animate-shake {
+  animation: shake 0.4s ease;
+}
+.animate-bounce-scale {
+  animation: bounceScale 0.3s ease;
+}
+.toast-item {
+  animation:
+    slideUp 0.3s ease,
+    toastOut 0.3s ease 2.7s forwards;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
