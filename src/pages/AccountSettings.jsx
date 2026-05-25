@@ -5,6 +5,40 @@ import TopBar from "../components/layout/TopBar";
 import MobileBottomNav from "../components/user/MobileBottomNav";
 import EyeIcon from "../components/ui/EyeIcon";
 
+function PwField({
+  label,
+  value,
+  onChange,
+  show,
+  setShow,
+  placeholder,
+  extra,
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-bold text-slate-600 mb-1.5">
+        {label}
+      </label>
+      <div className="relative">
+        <input
+          type={show ? "text" : "password"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className={`field-input pl-12 ${extra || ""}`}
+        />
+        <button
+          type="button"
+          onClick={() => setShow((v) => !v)}
+          className="absolute left-3 top-1/2 -translate-y-1/2 p-1.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:text-blue-main hover:border-blue-main transition-all"
+        >
+          <EyeIcon open={show} size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function AccountSettings() {
   const {
     currentUser,
@@ -32,6 +66,10 @@ export default function AccountSettings() {
   const balance =
     currentUser?.role !== "superadmin"
       ? (DB.accounts.find((a) => a.id === currentUser?.id)?.balance ?? 0)
+      : 0;
+  const debt =
+    currentUser?.role !== "superadmin"
+      ? (DB.accounts.find((a) => a.id === currentUser?.id)?.debt ?? 0)
       : 0;
 
   const transactions =
@@ -125,38 +163,6 @@ export default function AccountSettings() {
     ...(!isAdmin ? [{ key: "wallet", label: "💰 محفظتي" }] : []),
   ];
 
-  const PwField = ({
-    label,
-    value,
-    onChange,
-    show,
-    setShow,
-    placeholder,
-    extra,
-  }) => (
-    <div>
-      <label className="block text-sm font-bold text-slate-600 mb-1.5">
-        {label}
-      </label>
-      <div className="relative">
-        <input
-          type={show ? "text" : "password"}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className={`field-input pl-12 ${extra || ""}`}
-        />
-        <button
-          type="button"
-          onClick={() => setShow((v) => !v)}
-          className="absolute left-3 top-1/2 -translate-y-1/2 p-1.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:text-blue-main hover:border-blue-main transition-all"
-        >
-          <EyeIcon open={show} size={16} />
-        </button>
-      </div>
-    </div>
-  );
-
   return (
     <div
       className="min-h-screen flex flex-col"
@@ -210,6 +216,11 @@ export default function AccountSettings() {
               {currentUser?.phone && (
                 <div className="text-xs text-slate-400 font-mono">
                   {currentUser.phone}
+                </div>
+              )}
+              {debt > 0 && (
+                <div className="mt-3 inline-flex items-center gap-1.5 bg-red-500/25 border border-red-200/40 rounded-full px-3 py-1.5 text-xs font-semibold">
+                  دين عليك: {debt.toLocaleString("ar")} د.ع
                 </div>
               )}
             </div>
@@ -423,6 +434,11 @@ export default function AccountSettings() {
               {balance < 5000 && (
                 <div className="mt-3 inline-flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-full px-3 py-1.5 text-xs font-semibold">
                   ⚠️ رصيد منخفض — تواصل مع المدير
+                </div>
+              )}
+              {debt > 0 && (
+                <div className="mt-3 inline-flex items-center gap-1.5 bg-red-500/25 border border-red-200/40 rounded-full px-3 py-1.5 text-xs font-semibold">
+                  دين عليك: {debt.toLocaleString("ar")} د.ع
                 </div>
               )}
             </div>

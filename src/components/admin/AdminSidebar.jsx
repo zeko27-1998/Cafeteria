@@ -10,19 +10,13 @@ export default function AdminSidebar({
 
   const NAV = [
     { key: "dashboard", icon: "📊", label: "لوحة التحكم" },
-
     { divider: true },
-
     { key: "items", icon: "🍔", label: "إدارة الأصناف" },
-    { key: "add-item", icon: "➕", label: "إضافة صنف" },
     { key: "orders", icon: "📋", label: "الطلبات", badge: pending },
-
     { divider: true },
-
-    { key: "users", icon: "👥", label: "الحسابات والمحافظ" },
-
+    { key: "users", icon: "👥", label: "المستخدمون" },
+    { key: "wallet", icon: "💳", label: "المحافظ والديون" },
     { divider: true },
-
     { key: "categories", icon: "🗂️", label: "الفئات" },
   ];
 
@@ -33,7 +27,7 @@ export default function AdminSidebar({
 
   return (
     <aside
-      className="flex flex-col h-full "
+      className="flex flex-col h-full"
       style={{
         background: "#F8FAFC",
         borderLeft: "2px solid #E2E8F0",
@@ -44,7 +38,6 @@ export default function AdminSidebar({
         willChange: "width",
       }}
     >
-      {/* ── Logo row + toggle button ── */}
       <div
         className={`hidden md:flex items-center ${collapsed ? "justify-center" : "justify-between"} flex-shrink-0`}
         style={{
@@ -85,14 +78,6 @@ export default function AdminSidebar({
             padding: 0,
           }}
           title={collapsed ? "توسيع القائمة" : "طي القائمة"}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "#DBEAFE";
-            e.currentTarget.style.borderColor = "#93C5FD";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "#EFF6FF";
-            e.currentTarget.style.borderColor = "#BFDBFE";
-          }}
         >
           <svg
             width={22}
@@ -112,10 +97,8 @@ export default function AdminSidebar({
         </button>
       </div>
 
-      {/* ── Nav items ── */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-2 space-y-0.5">
         {NAV.map((item, idx) => {
-          /* Section header — hide when collapsed */
           if (item.divider) {
             return (
               <div
@@ -127,14 +110,6 @@ export default function AdminSidebar({
                     "linear-gradient(to left, transparent, #E2E8F0, transparent)",
                 }}
               />
-            );
-            return (
-              <div
-                key={idx}
-                className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3 pt-5 pb-1.5 whitespace-nowrap"
-              >
-                {item.section}
-              </div>
             );
           }
 
@@ -165,7 +140,6 @@ export default function AdminSidebar({
                 if (!isActive) e.currentTarget.style.background = "transparent";
               }}
             >
-              {/* Icon */}
               <span
                 className="text-lg flex-shrink-0"
                 style={{
@@ -176,24 +150,14 @@ export default function AdminSidebar({
                 {item.icon}
               </span>
 
-              {/* Label */}
               {!collapsed && (
-                <span
-                  className="flex-1 text-right whitespace-nowrap"
-                  style={{
-                    opacity: collapsed ? 0 : 1,
-                    transform: collapsed ? "translateX(10px)" : "translateX(0)",
-                    transition: "all .25s ease",
-                  }}
-                >
+                <span className="flex-1 text-right whitespace-nowrap">
                   {item.label}
                 </span>
               )}
 
-              {/* Pending badge */}
               {item.badge > 0 &&
                 (collapsed ? (
-                  /* small dot on icon when collapsed */
                   <span className="absolute top-1 left-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] font-black flex items-center justify-center">
                     {item.badge}
                   </span>

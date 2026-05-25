@@ -1,0 +1,28 @@
+
+> cafeteria-app@1.0.0 dev
+> vite --host 127.0.0.1
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m268[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+[2m11:27:33 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/MyOrders.jsx, /src/context/AppContext.jsx, /src/components/user/MenuGrid.jsx, /src/components/admin/AddItem.jsx, /src/components/admin/Dashboard.jsx, /src/components/admin/ManageItems.jsx, /src/components/admin/ManageUsers.jsx, /src/components/admin/Orders.jsx[22m
+[2m11:27:34 AM[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/context/AppContext.jsx[22m Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:27:34 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css, /src/pages/LoginPage.jsx, /src/components/ui/Toast.jsx, /src/pages/UserPage.jsx, /src/pages/AdminPage.jsx, /src/components/cart/CartSidebar.jsx, /src/pages/MyOrders.jsx, /src/pages/AccountSettings.jsx, /src/components/user/HeroBanner.jsx, /src/components/user/CategoryChips.jsx, /src/components/user/ItemDetailModal.jsx, /src/components/user/OrderTypeStrip.jsx, /src/components/user/MobileBottomNav.jsx, /src/components/user/MenuGrid.jsx, /src/components/admin/AdminSidebar.jsx, /src/components/admin/AddItem.jsx, /src/components/layout/TopBar.jsx, /src/components/admin/Categories.jsx, /src/components/admin/Dashboard.jsx, /src/components/user/ConfirmOrderModal.jsx, /src/components/admin/ManageItems.jsx, /src/components/admin/ManageUsers.jsx, /src/components/admin/Orders.jsx, /src/components/user/MenuCard.jsx[22m
+[2m11:28:10 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/context/AppContext.jsx, /src/index.css[22m
+[2m11:28:10 AM[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/context/AppContext.jsx[22m Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:28:10 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css, /src/pages/LoginPage.jsx, /src/components/ui/Toast.jsx, /src/pages/UserPage.jsx, /src/pages/AdminPage.jsx, /src/components/cart/CartSidebar.jsx, /src/pages/MyOrders.jsx, /src/pages/AccountSettings.jsx, /src/components/user/HeroBanner.jsx, /src/components/user/CategoryChips.jsx, /src/components/user/ItemDetailModal.jsx, /src/components/user/OrderTypeStrip.jsx, /src/components/user/MobileBottomNav.jsx, /src/components/user/MenuGrid.jsx, /src/components/admin/AdminSidebar.jsx, /src/components/admin/AddItem.jsx, /src/components/layout/TopBar.jsx, /src/components/admin/Categories.jsx, /src/components/admin/Dashboard.jsx, /src/components/user/ConfirmOrderModal.jsx, /src/components/admin/ManageItems.jsx, /src/components/admin/ManageUsers.jsx, /src/components/admin/Orders.jsx, /src/components/user/MenuCard.jsx[22m
+[2m11:28:15 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AdminPage.jsx, /src/index.css[22m
+[2m11:28:18 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m11:29:03 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/admin/AdminSidebar.jsx, /src/index.css[22m
+[2m11:29:35 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/admin/AdminSidebar.jsx[22m
+[2m11:29:39 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/admin/AddItem.jsx, /src/index.css[22m
+[2m11:29:47 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/admin/ManageItems.jsx, /src/index.css[22m
+[2m11:29:51 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/admin/ManageUsers.jsx, /src/index.css[22m
+[2m11:30:36 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/admin/ManageUsers.jsx[22m
+[2m11:31:55 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/admin/AdminSidebar.jsx, /src/index.css[22m
+[2m11:32:03 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/admin/ManageWallet.jsx[22m
+[2m11:32:19 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/admin/AdminPage.jsx[22m
+[2m11:32:55 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AccountSettings.jsx, /src/index.css[22m
+[2m11:32:59 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AccountSettings.jsx, /src/index.css[22m
+[2m11:33:21 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AccountSettings.jsx, /src/index.css[22m

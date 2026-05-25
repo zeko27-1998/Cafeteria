@@ -2,14 +2,16 @@ import { useState } from "react";
 import { useApp } from "../../context/AppContext";
 import Badge from "../ui/Badge";
 import Modal from "../ui/Modal";
+import AddItem from "./AddItem";
 import { typeAr, EMOJIS } from "../../data/db";
 
 export default function ManageItems() {
-  const { DB, toggleAvail, deleteItem, saveEditItem, setAdminTab } = useApp();
+  const { DB, toggleAvail, deleteItem, saveEditItem } = useApp();
   const [filter, setFilter] = useState("");
   const [editItem, setEditItem] = useState(null);
   const [editForm, setEditForm] = useState({});
   const [editImg, setEditImg] = useState(null);
+  const [addOpen, setAddOpen] = useState(false);
 
   const items = DB.items.filter(
     (i) => !filter || i.name.includes(filter) || i.desc?.includes(filter),
@@ -87,7 +89,7 @@ export default function ManageItems() {
             />
           </div>
           <button
-            onClick={() => setAdminTab("add-item")}
+            onClick={() => setAddOpen(true)}
             className="btn-primary-gradient px-5 py-2.5 rounded-2xl text-sm font-bold whitespace-nowrap flex items-center gap-1.5"
           >
             <svg
@@ -331,6 +333,15 @@ export default function ManageItems() {
           </table>
         </div>
       </div>
+
+      <Modal
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        title="إضافة صنف"
+        maxWidth="max-w-3xl"
+      >
+        <AddItem onSaved={() => setAddOpen(false)} />
+      </Modal>
 
       {/* Edit Modal */}
       <Modal

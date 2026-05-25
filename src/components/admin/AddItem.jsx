@@ -12,7 +12,19 @@ const EMPTY = {
   image: null,
 };
 
-export default function AddItem() {
+function SectionCard({ title, children }) {
+  return (
+    <div
+      className="bg-white rounded-3xl p-6 space-y-4"
+      style={{ border: "2px solid #E2E8F0" }}
+    >
+      <div className="font-black text-slate-800 text-sm">{title}</div>
+      {children}
+    </div>
+  );
+}
+
+export default function AddItem({ onSaved }) {
   const { DB, addItem, toast } = useApp();
   const [form, setForm] = useState(EMPTY);
   const [prev, setPrev] = useState(null);
@@ -63,17 +75,8 @@ export default function AddItem() {
     });
     setForm(EMPTY);
     removeImg();
+    onSaved?.();
   };
-
-  const SectionCard = ({ title, children }) => (
-    <div
-      className="bg-white rounded-3xl p-6 space-y-4"
-      style={{ border: "2px solid #E2E8F0" }}
-    >
-      <div className="font-black text-slate-800 text-sm">{title}</div>
-      {children}
-    </div>
-  );
 
   return (
     <div className="animate-fade-in-up space-y-5">

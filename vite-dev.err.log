@@ -1,0 +1,38 @@
+[2m11:28:15 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../components/admin/ManageWallet" from "src/pages/AdminPage.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Scopesky/Downloads/New folder/cafeteria-app/src/pages/AdminPage.jsx[39m:11:25
+[33m  26 |  import Categories from "../components/admin/Categories";
+  27 |  import ManageUsers from "../components/admin/ManageUsers";
+  28 |  import ManageWallet from "../components/admin/ManageWallet";
+     |                            ^
+  29 |  const SECTIONS = {
+  30 |    dashboard: /* @__PURE__ */ jsxDEV(Dashboard, {}, void 0, false, {[39m
+      at TransformPluginContext._formatError (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 13)
+      at async TransformPluginContext.transform (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m11:28:18 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../components/admin/ManageWallet" from "src/pages/AdminPage.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Scopesky/Downloads/New folder/cafeteria-app/src/pages/AdminPage.jsx[39m:10:25
+[33m  25 |  import Categories from "../components/admin/Categories";
+  26 |  import ManageUsers from "../components/admin/ManageUsers";
+  27 |  import ManageWallet from "../components/admin/ManageWallet";
+     |                            ^
+  28 |  const SECTIONS = {
+  29 |    dashboard: /* @__PURE__ */ jsxDEV(Dashboard, {}, void 0, false, {[39m
+      at TransformPluginContext._formatError (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 12)
+      at async TransformPluginContext.transform (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Scopesky/Downloads/New%20folder/cafeteria-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+[2m11:28:18 AM[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "../components/admin/ManageWallet" from "src/pages/AdminPage.jsx". Does the file exist?

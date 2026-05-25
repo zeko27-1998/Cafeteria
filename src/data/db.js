@@ -31,6 +31,7 @@ export const DB = {
       name: "مدير الكافتريا",
       role: "admin",
       balance: 0,
+      debt: 0,
     },
     {
       id: 2,
@@ -39,6 +40,7 @@ export const DB = {
       name: "أحمد علي",
       role: "user",
       balance: 25000,
+      debt: 0,
     },
     {
       id: 3,
@@ -47,6 +49,7 @@ export const DB = {
       name: "سارة محمد",
       role: "user",
       balance: 15000,
+      debt: 0,
     },
   ],
 
@@ -178,7 +181,9 @@ export const DB = {
   _nextOrderId: 1,
   _nextAccountId: 4,
   _nextTxId: 1,
+  _nextDebtId: 1,
   transactions: [], // { id, accountId, accountName, type, amount, note, time, date }
+  debts: [], // { id, accountId, accountName, amount, note, time, date }
 };
 
 // ── DB_API: جلب جميع الفئات ──────────────────────────────────────
@@ -287,7 +292,7 @@ export function dbFindAccount(username, password) {
 export function dbAddAccount(account) {
   const exists = DB.accounts.some((a) => a.username === account.username);
   if (exists) return null; // اسم المستخدم مكرر
-  const newAcc = { ...account, id: DB._nextAccountId++ };
+  const newAcc = { debt: 0, ...account, id: DB._nextAccountId++ };
   DB.accounts.push(newAcc);
   return newAcc;
 }
@@ -304,6 +309,8 @@ export function dbUpdateAccount(id, changes) {
 // استبدال مستقبلي: DELETE /api/accounts/:id
 export function dbDeleteAccount(id) {
   DB.accounts = DB.accounts.filter((a) => a.id !== id);
+  DB.transactions = DB.transactions.filter((t) => t.accountId !== id);
+  DB.debts = DB.debts.filter((d) => d.accountId !== id);
 }
 
 // ── DB_API: إيداع رصيد في حساب ──────────────────────────────────
@@ -359,6 +366,61 @@ export function dbGetTransactions(accountId = null) {
   return accountId
     ? DB.transactions.filter((t) => t.accountId === accountId)
     : [...DB.transactions];
+}
+
+export function dbAddDebt(id, amount, note = "") {
+  const acc = DB.accounts.find((a) => a.id === id);
+  if (!acc) return null;
+  acc.debt = (acc.debt || 0) + amount;
+  const debt = {
+    id: DB._nextDebtId++,
+    accountId: id,
+    accountName: acc.name,
+    amount,
+    note: note || "دين مسجل من المدير",
+    time: new Date().toLocaleTimeString("ar-IQ", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+    date: new Date().toLocaleDateString("ar-IQ"),
+  };
+  DB.debts.push(debt);
+  DB.transactions.push({
+    id: DB._nextTxId++,
+    accountId: id,
+    accountName: acc.name,
+    type: "debt",
+    amount,
+    note: debt.note,
+    time: debt.time,
+    date: debt.date,
+  });
+  return { account: acc, debt };
+}
+
+export function dbPayDebt(id, amount) {
+  const acc = DB.accounts.find((a) => a.id === id);
+  if (!acc) return { ok: false, reason: "account_not_found" };
+  const paid = Math.min(amount, acc.debt || 0);
+  acc.debt = Math.max(0, (acc.debt || 0) - paid);
+  DB.transactions.push({
+    id: DB._nextTxId++,
+    accountId: id,
+    accountName: acc.name,
+    type: "debt_payment",
+    amount: paid,
+    note: "تسديد دين",
+    time: new Date().toLocaleTimeString("ar-IQ", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+    date: new Date().toLocaleDateString("ar-IQ"),
+  });
+  return { ok: true, debt: acc.debt };
+}
+
+export function dbGetDebts(accountId = null) {
+  return accountId ? DB.debts.filter((d) => d.accountId === accountId) : [...DB.debts];
 }
 
 // ── Helpers ──────────────────────────────────────────────────────

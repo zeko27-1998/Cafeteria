@@ -17,6 +17,9 @@ import {
   dbDeposit,
   dbDeduct,
   dbGetTransactions,
+  dbAddDebt,
+  dbPayDebt,
+  dbGetDebts,
 } from "../data/db";
 
 const AppContext = createContext(null);
@@ -220,7 +223,7 @@ export function AppProvider({ children }) {
       toast("لا يمكن إضافة سوبر أدمن آخر", "error");
       return false;
     }
-    const acc = dbAddAccount({ ...data, balance: 0 });
+    const acc = dbAddAccount({ ...data, balance: 0, debt: 0 });
     if (!acc) {
       toast("اسم المستخدم مستخدم بالفعل", "error");
       return false;
@@ -301,6 +304,43 @@ export function AppProvider({ children }) {
   };
 
   const getTransactions = (accountId) => dbGetTransactions(accountId);
+  const getDebts = (accountId) => dbGetDebts(accountId);
+
+  const addDebt = (accountId, amount, note) => {
+    if (isNaN(amount) || amount <= 0) {
+      toast("أدخل مبلغ دين صحيح", "error");
+      return false;
+    }
+    const result = dbAddDebt(accountId, amount, note);
+    if (!result) {
+      toast("الحساب غير موجود", "error");
+      return false;
+    }
+    if (currentUser?.id === accountId) {
+      setCurrentUser((prev) => ({ ...prev, debt: result.account.debt }));
+    }
+    refresh();
+    toast(`تم تسجيل دين على ${result.account.name}`, "success");
+    return true;
+  };
+
+  const payDebt = (accountId, amount) => {
+    if (isNaN(amount) || amount <= 0) {
+      toast("أدخل مبلغ تسديد صحيح", "error");
+      return false;
+    }
+    const result = dbPayDebt(accountId, amount);
+    if (!result.ok) {
+      toast("الحساب غير موجود", "error");
+      return false;
+    }
+    if (currentUser?.id === accountId) {
+      setCurrentUser((prev) => ({ ...prev, debt: result.debt }));
+    }
+    refresh();
+    toast("تم تحديث الدين", "success");
+    return true;
+  };
 
   const value = {
     cartItemsCount,
@@ -346,6 +386,9 @@ export function AppProvider({ children }) {
     updateSelfProfile,
     depositBalance,
     getTransactions,
+    addDebt,
+    payDebt,
+    getDebts,
     DB,
     toast,
     toasts,

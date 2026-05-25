@@ -4,18 +4,18 @@ import TopBar from "../components/layout/TopBar";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import Dashboard from "../components/admin/Dashboard";
 import ManageItems from "../components/admin/ManageItems";
-import AddItem from "../components/admin/AddItem";
 import Orders from "../components/admin/Orders";
 import Categories from "../components/admin/Categories";
 import ManageUsers from "../components/admin/ManageUsers";
+import ManageWallet from "../components/admin/ManageWallet";
 
 const SECTIONS = {
   dashboard: <Dashboard />,
   items: <ManageItems />,
-  "add-item": <AddItem />,
   orders: <Orders />,
   categories: <Categories />,
   users: <ManageUsers />,
+  wallet: <ManageWallet />,
 };
 
 export default function AdminPage() {
