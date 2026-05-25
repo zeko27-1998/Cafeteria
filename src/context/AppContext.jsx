@@ -122,6 +122,10 @@ export function AppProvider({ children }) {
         .map((c) => (c.item.id === itemId ? { ...c, qty: c.qty + delta } : c))
         .filter((c) => c.qty > 0),
     );
+  const clearCart = () => {
+    setCart([]);
+    toast("تم تفريغ السلة", "info");
+  };
 
   const cartTotal = cart.reduce((s, c) => s + c.item.price * c.qty, 0);
   const cartCount = cart.length;
@@ -356,6 +360,7 @@ export function AppProvider({ children }) {
     setCartOpen,
     addToCart,
     changeQty,
+    clearCart,
     cartTotal,
     cartCount,
     currentBalance,

@@ -60,7 +60,39 @@ export default function ManageUsers() {
         />
       </div>
 
-      <div className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden">
+      <div className="block md:hidden space-y-3">
+        {visibleAccounts.length === 0 ? (
+          <div className="bg-white rounded-2xl border-2 border-slate-200 p-10 text-center text-slate-400">
+            لا توجد حسابات
+          </div>
+        ) : (
+          visibleAccounts.map((acc) => (
+            <div
+              key={acc.id}
+              className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden"
+            >
+              <div className="flex items-center gap-3 p-4">
+                <Avatar name={acc.name} />
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-slate-800 truncate">{acc.name}</div>
+                  <code className="text-xs text-slate-400 font-mono">{acc.username}</code>
+                </div>
+                <Badge variant={ROLE_BADGE[acc.role]}>{ROLE_AR[acc.role]}</Badge>
+              </div>
+              <div className="flex justify-end px-4 pb-4">
+                <button
+                  onClick={() => deleteAccount(acc.id)}
+                  className="bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition-all"
+                >
+                  حذف
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="hidden md:block bg-white rounded-2xl border-2 border-slate-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[620px]">
             <thead>

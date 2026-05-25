@@ -8,9 +8,11 @@ export default function CartSidebar() {
     cartOpen,
     setCartOpen,
     changeQty,
+    clearCart,
     cartTotal,
     setConfirmOpen,
     currentBalance,
+    currentUser,
     role,
     paymentMethod,
     setPaymentMethod,
@@ -47,6 +49,7 @@ export default function CartSidebar() {
   const isUser = role === "user";
   const useWallet = paymentMethod === "wallet";
   const canAfford = !isUser || !useWallet || currentBalance >= cartTotal;
+  const currentDebt = currentUser?.debt || 0;
 
   return (
     <>
@@ -195,6 +198,11 @@ export default function CartSidebar() {
                 ⚠️ رصيد غير كافٍ — استخدم الدفع النقدي
               </div>
             )}
+            {currentDebt > 0 && (
+              <div className="mt-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 font-semibold text-center">
+                لديك دين: {currentDebt.toLocaleString("ar")} د.ع
+              </div>
+            )}
           </div>
         )}
 
@@ -316,21 +324,33 @@ export default function CartSidebar() {
               </div>
             </div>
           )}
-          <button
-            onClick={() => {
-              if (!cart.length) return;
-              setCartOpen(false);
-              setTimeout(() => setConfirmOpen(true), 320);
-            }}
-            disabled={!cart.length || (isUser && useWallet && !canAfford)}
-            className="btn-success-gradient w-full py-3.5 rounded-2xl font-bold text-[15px] disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            {!cart.length
-              ? "🛒 السلة فارغة"
-              : isUser && useWallet && !canAfford
-                ? "⚠️ رصيد غير كافٍ"
-                : "✔ متابعة للدفع"}
-          </button>
+          <div className="flex gap-2">
+            {cart.length > 0 && (
+              <button
+                onClick={() => {
+                  if (window.confirm("تفريغ السلة؟")) clearCart();
+                }}
+                className="px-4 py-3.5 rounded-2xl font-bold text-[13px] border-2 border-red-200 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all"
+              >
+                مسح
+              </button>
+            )}
+            <button
+              onClick={() => {
+                if (!cart.length) return;
+                setCartOpen(false);
+                setTimeout(() => setConfirmOpen(true), 320);
+              }}
+              disabled={!cart.length || (isUser && useWallet && !canAfford)}
+              className="btn-success-gradient flex-1 py-3.5 rounded-2xl font-bold text-[15px] disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {!cart.length
+                ? "🛒 السلة فارغة"
+                : isUser && useWallet && !canAfford
+                  ? "⚠️ رصيد غير كافٍ"
+                  : "✔ متابعة للدفع"}
+            </button>
+          </div>
         </div>
       </div>
     </>

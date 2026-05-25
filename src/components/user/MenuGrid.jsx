@@ -10,7 +10,7 @@ const SECTION_LABEL = {
 };
 
 export default function MenuGrid() {
-  const { activeCat, searchTerm, orderType } = useApp();
+  const { activeCat, searchTerm, setSearchTerm, orderType } = useApp();
   const items = dbGetItems(activeCat, searchTerm, orderType);
 
   return (
@@ -32,6 +32,14 @@ export default function MenuGrid() {
             <div className="text-6xl mb-4">🍽️</div>
             <p className="text-base font-semibold">لا توجد أصناف مطابقة</p>
             <p className="text-sm mt-1">جرّب تغيير نوع الطلب أو الفئة</p>
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="mt-4 px-4 py-2 rounded-xl border-2 border-slate-200 bg-white text-slate-600 text-xs font-bold hover:border-blue-main hover:text-blue-main transition-all"
+              >
+                مسح البحث
+              </button>
+            )}
           </div>
         ) : (
           items.map((item) => <MenuCard key={item.id} item={item} />)

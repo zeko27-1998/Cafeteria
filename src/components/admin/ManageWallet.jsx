@@ -24,6 +24,8 @@ export default function ManageWallet() {
   const [debtAcc, setDebtAcc] = useState(null);
   const [debtAmt, setDebtAmt] = useState("");
   const [debtNote, setDebtNote] = useState("");
+  const [payDebtAcc, setPayDebtAcc] = useState(null);
+  const [payDebtAmt, setPayDebtAmt] = useState("");
   const [txAcc, setTxAcc] = useState(null);
 
   const totalBalance = accounts.reduce((s, a) => s + (a.balance || 0), 0);
@@ -57,9 +59,19 @@ export default function ManageWallet() {
     }
   };
 
-  const handlePayDebt = (acc) => {
+  const openPayDebt = (acc) => {
     if (!(acc.debt > 0)) return;
-    payDebt(acc.id, acc.debt);
+    setPayDebtAcc(acc);
+    setPayDebtAmt(String(acc.debt || ""));
+  };
+
+  const handlePayDebt = () => {
+    const amt = parseFloat(payDebtAmt);
+    const ok = payDebt(payDebtAcc.id, amt);
+    if (ok) {
+      setPayDebtAmt("");
+      setPayDebtAcc(null);
+    }
   };
 
   return (
@@ -75,8 +87,13 @@ export default function ManageWallet() {
         <Stat label="إجمالي الديون" value={totalDebt} color="text-red-600" />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        {accounts.map((acc) => {
+      {accounts.length === 0 ? (
+        <div className="bg-white rounded-2xl border-2 border-slate-200 p-12 text-center text-slate-400">
+          لا توجد حسابات لإدارة المحافظ
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+          {accounts.map((acc) => {
           const live = DB.accounts.find((a) => a.id === acc.id) || acc;
           return (
             <div key={acc.id} className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden">
@@ -110,7 +127,7 @@ export default function ManageWallet() {
                   إضافة دين
                 </button>
                 <button
-                  onClick={() => handlePayDebt(acc)}
+                  onClick={() => openPayDebt(acc)}
                   disabled={!(live.debt > 0)}
                   className="px-3 py-2 rounded-xl border-2 border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 >
@@ -119,8 +136,9 @@ export default function ManageWallet() {
               </div>
             </div>
           );
-        })}
-      </div>
+          })}
+        </div>
+      )}
 
       <Modal
         open={!!walletAcc}
@@ -170,6 +188,32 @@ export default function ManageWallet() {
       </Modal>
 
       <Modal
+        open={!!payDebtAcc}
+        onClose={() => setPayDebtAcc(null)}
+        title="تسديد دين"
+        maxWidth="max-w-sm"
+      >
+        {payDebtAcc && (
+          <div className="space-y-4">
+            <div className="p-4 rounded-2xl border-2 border-slate-200 bg-slate-50">
+              <div className="font-bold text-slate-800">{payDebtAcc.name}</div>
+              <div className="text-xs text-slate-500">
+                الدين الحالي: {(payDebtAcc.debt || 0).toLocaleString("ar")} د.ع
+              </div>
+            </div>
+            <AmountForm
+              amount={payDebtAmt}
+              setAmount={setPayDebtAmt}
+              accent="#1565C0"
+              submitLabel="تأكيد التسديد"
+              onSubmit={handlePayDebt}
+              maxAmount={payDebtAcc.debt || 0}
+            />
+          </div>
+        )}
+      </Modal>
+
+      <Modal
         open={!!txAcc}
         onClose={() => setTxAcc(null)}
         title={`سجل ${txAcc?.name || ""}`}
@@ -181,11 +225,15 @@ export default function ManageWallet() {
   );
 }
 
-function AmountForm({ amount, setAmount, accent, submitLabel, onSubmit }) {
+function AmountForm({ amount, setAmount, accent, submitLabel, onSubmit, maxAmount }) {
+  const quickAmounts = maxAmount
+    ? QUICK.filter((a) => a <= maxAmount)
+    : QUICK;
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-3 gap-2">
-        {QUICK.map((a) => (
+        {quickAmounts.map((a) => (
           <button
             key={a}
             onClick={() => setAmount(String(a))}
@@ -199,6 +247,19 @@ function AmountForm({ amount, setAmount, accent, submitLabel, onSubmit }) {
             {a.toLocaleString("ar")}
           </button>
         ))}
+        {maxAmount > 0 && !quickAmounts.includes(maxAmount) && (
+          <button
+            onClick={() => setAmount(String(maxAmount))}
+            className="py-2.5 rounded-xl text-sm font-bold transition-all"
+            style={{
+              border: `2px solid ${amount === String(maxAmount) ? accent : "#E2E8F0"}`,
+              background: amount === String(maxAmount) ? "#F8FAFC" : "white",
+              color: amount === String(maxAmount) ? accent : "#475569",
+            }}
+          >
+            الكل
+          </button>
+        )}
       </div>
       <input
         type="number"

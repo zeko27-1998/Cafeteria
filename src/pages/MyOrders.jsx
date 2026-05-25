@@ -20,6 +20,9 @@ const S_ICON = {
   ملغي: "❌",
 };
 const STEPS = ["قيد التحضير", "جاري التحضير", "جاهز للاستلام", "تم التسليم"];
+const paymentLabel = (method) =>
+  method === "cash" ? "دفع نقدي" : "رصيد الحساب";
+const paymentIcon = (method) => (method === "cash" ? "💵" : "💳");
 
 export default function MyOrders() {
   const { DB, currentUser } = useApp();
@@ -194,20 +197,38 @@ export default function MyOrders() {
                       <Badge variant={S_COLOR[order.status] || "orange"}>
                         {typeAr(order.type)}
                       </Badge>
-                      {order.paymentMethod === "cash" && (
-                        <Badge variant="green">💵 نقدي</Badge>
-                      )}
+                      <Badge
+                        variant={order.paymentMethod === "cash" ? "green" : "blue"}
+                      >
+                        {paymentIcon(order.paymentMethod)}{" "}
+                        {paymentLabel(order.paymentMethod)}
+                      </Badge>
                     </div>
                     <div className="text-xs text-slate-400 mt-0.5">
                       {order.date} — {order.time}
                     </div>
                   </div>
-                  <div className="font-black text-blue-main text-sm flex-shrink-0">
-                    {order.subtotal.toLocaleString("ar")}{" "}
-                    <span className="text-xs font-normal text-slate-400">
-                      د.ع
-                    </span>
+                  <div className="text-left flex-shrink-0">
+                    <div className="font-black text-blue-main text-sm">
+                      {order.subtotal.toLocaleString("ar")}{" "}
+                      <span className="text-xs font-normal text-slate-400">
+                        د.ع
+                      </span>
+                    </div>
+                    <div className="text-[10px] font-semibold text-slate-400">
+                      {order.items.reduce((s, c) => s + c.qty, 0)} قطعة
+                    </div>
                   </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 px-4 py-3 bg-slate-50 border-b border-slate-100">
+                  <MiniStat label="الحالة" value={order.status} />
+                  <MiniStat label="الدفع" value={paymentLabel(order.paymentMethod)} />
+                  <MiniStat
+                    label="الإجمالي"
+                    value={`${order.subtotal.toLocaleString("ar")} د.ع`}
+                    strong
+                  />
                 </div>
 
                 {/* Items */}
@@ -259,6 +280,21 @@ export default function MyOrders() {
         )}
       </main>
       <MobileBottomNav />
+    </div>
+  );
+}
+
+function MiniStat({ label, value, strong = false }) {
+  return (
+    <div className="rounded-2xl bg-white border border-slate-200 px-3 py-2 min-w-0">
+      <div className="text-[10px] text-slate-400 font-bold mb-0.5">
+        {label}
+      </div>
+      <div
+        className={`text-xs truncate ${strong ? "font-black text-blue-main" : "font-bold text-slate-700"}`}
+      >
+        {value}
+      </div>
     </div>
   );
 }

@@ -462,6 +462,14 @@ export default function AccountSettings() {
                   bg: "bg-blue-50",
                   br: "border-blue-200",
                 },
+                {
+                  icon: "🧾",
+                  label: "الدين الحالي",
+                  val: debt,
+                  c: debt > 0 ? "text-red-600" : "text-slate-400",
+                  bg: debt > 0 ? "bg-red-50" : "bg-slate-50",
+                  br: debt > 0 ? "border-red-200" : "border-slate-200",
+                },
               ].map((s) => (
                 <div
                   key={s.label}
@@ -505,9 +513,15 @@ export default function AccountSettings() {
                       className="flex items-center gap-3 px-4 py-3"
                     >
                       <div
-                        className={`w-10 h-10 rounded-2xl flex items-center justify-center text-lg flex-shrink-0 ${tx.type === "deposit" ? "bg-emerald-100" : "bg-blue-50"}`}
+                        className={`w-10 h-10 rounded-2xl flex items-center justify-center text-lg flex-shrink-0 ${tx.type === "deposit" ? "bg-emerald-100" : tx.type?.includes("debt") ? "bg-red-50" : "bg-blue-50"}`}
                       >
-                        {tx.type === "deposit" ? "💰" : "🛒"}
+                        {tx.type === "deposit"
+                          ? "💰"
+                          : tx.type === "debt"
+                            ? "🧾"
+                            : tx.type === "debt_payment"
+                              ? "✅"
+                              : "🛒"}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-semibold text-slate-700">
@@ -518,9 +532,13 @@ export default function AccountSettings() {
                         </div>
                       </div>
                       <div
-                        className={`font-black text-sm flex-shrink-0 ${tx.type === "deposit" ? "text-emerald-600" : "text-blue-main"}`}
+                        className={`font-black text-sm flex-shrink-0 ${tx.type === "deposit" ? "text-emerald-600" : tx.type?.includes("debt") ? "text-red-600" : "text-blue-main"}`}
                       >
-                        {tx.type === "deposit" ? "+" : "-"}
+                        {tx.type === "deposit"
+                          ? "+"
+                          : tx.type === "debt"
+                            ? ""
+                            : "-"}
                         {tx.amount.toLocaleString("ar")}{" "}
                         <span className="text-xs opacity-70">د.ع</span>
                       </div>

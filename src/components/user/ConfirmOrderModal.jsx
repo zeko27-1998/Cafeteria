@@ -10,6 +10,7 @@ export default function ConfirmOrderModal() {
     cartTotal,
     submitOrder,
     currentBalance,
+    currentUser,
     role,
     paymentMethod,
     setPaymentMethod,
@@ -20,6 +21,7 @@ export default function ConfirmOrderModal() {
   const useWallet = paymentMethod === "wallet";
   const canAfford = !isUser || !useWallet || currentBalance >= cartTotal;
   const remaining = currentBalance - cartTotal;
+  const currentDebt = currentUser?.debt || 0;
 
   const handleSubmit = () => {
     submitOrder(note);
@@ -164,6 +166,24 @@ export default function ConfirmOrderModal() {
                     : "❌ غير كافٍ"}
                 </div>
               </div>
+            </div>
+          )}
+          {currentDebt > 0 && (
+            <div
+              className="mt-3 flex items-center justify-between p-3 rounded-2xl text-sm bg-amber-50"
+              style={{ border: "2px solid #FDE68A" }}
+            >
+              <div>
+                <div className="text-xs text-amber-700 font-semibold">
+                  الدين المسجل عليك
+                </div>
+                <div className="font-black text-amber-800">
+                  {currentDebt.toLocaleString("ar")} د.ع
+                </div>
+              </div>
+              <span className="text-[11px] text-amber-700 font-bold">
+                لا يؤثر على إرسال الطلب
+              </span>
             </div>
           )}
         </div>
