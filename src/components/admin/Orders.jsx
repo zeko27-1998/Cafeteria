@@ -183,7 +183,18 @@ export default function Orders() {
                 }}
               >
                 {/* Order header */}
-                <div className="flex items-center gap-3 px-4 py-4">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setExpandId(isOpen ? null : order.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setExpandId(isOpen ? null : order.id);
+                    }
+                  }}
+                  className="flex items-center gap-3 px-4 py-4 cursor-pointer transition-colors hover:bg-slate-50"
+                >
                   <div
                     className="w-10 h-10 rounded-2xl text-xs font-black text-white flex items-center justify-center flex-shrink-0"
                     style={{
@@ -221,8 +232,7 @@ export default function Orders() {
                       </span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => setExpandId(isOpen ? null : order.id)}
+                  <div
                     className="w-9 h-9 rounded-2xl flex items-center justify-center transition-all flex-shrink-0"
                     style={{
                       border: "2px solid #E2E8F0",
@@ -242,7 +252,7 @@ export default function Orders() {
                     >
                       <polyline points="6 9 12 15 18 9" />
                     </svg>
-                  </button>
+                  </div>
                 </div>
 
                 {/* Expanded detail */}

@@ -17,13 +17,6 @@ export default function ManageUsers() {
   const visibleAccounts = isSA
     ? DB.accounts
     : DB.accounts.filter((a) => a.role === "user");
-  const allowedRoles = isSA
-    ? [
-        { value: "admin", label: "مدير" },
-        { value: "user", label: "موظف" },
-      ]
-    : [{ value: "user", label: "موظف" }];
-
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
   const handleAdd = () => {
@@ -60,10 +53,11 @@ export default function ManageUsers() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Stat label="كل الحسابات" value={visibleAccounts.length} />
-        <Stat label="الموظفون" value={visibleAccounts.filter((a) => a.role === "user").length} />
-        <Stat label="المدراء" value={visibleAccounts.filter((a) => a.role === "admin").length} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <Stat
+          label="عدد المستخدمين"
+          value={visibleAccounts.filter((a) => a.role === "user").length}
+        />
       </div>
 
       <div className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden">
@@ -165,19 +159,6 @@ export default function ManageUsers() {
                 <EyeIcon open={showPw} size={15} />
               </button>
             </div>
-          </Field>
-          <Field label="الدور">
-            <select
-              value={form.role}
-              onChange={(e) => set("role", e.target.value)}
-              className="field-input"
-            >
-              {allowedRoles.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
           </Field>
           <div className="flex gap-3 pt-1">
             <button onClick={handleAdd} className="btn-primary-gradient flex-1 py-3 rounded-full font-bold">

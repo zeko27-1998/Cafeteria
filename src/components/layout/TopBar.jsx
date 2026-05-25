@@ -100,7 +100,7 @@ export default function TopBar({
               stroke="rgba(255,255,255,0.7)"
               strokeWidth="2.5"
               strokeLinecap="round"
-              className={`transition-all duration-300 hidden sm:block ${
+              className={`transition-all duration-300 ${
                 menuOpen ? "rotate-180 scale-110" : ""
               }`}
             >
